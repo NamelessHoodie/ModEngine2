@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ModEngine2_GUI.Utilities;
 
 namespace ModEngine2_GUI.Steam
 {
@@ -115,7 +116,8 @@ namespace ModEngine2_GUI.Steam
                         MountedConfig = new MountedConfigType(value);
                         break;
                     default:
-                        throw new Exception("NOT IMPLEMENTED");
+                        new ExceptionUtils.SteamFieldUnimplementedException(nameof(AppManifest), key, value);
+                        break;
                 }
             }
         }
@@ -169,7 +171,8 @@ namespace ModEngine2_GUI.Steam
                             DlcAppId = propertyValue;
                             break;
                         default:
-                            throw new Exception("NOT IMPLEMENTED");
+                            new ExceptionUtils.SteamFieldUnimplementedException(nameof(Depot), propertyName, propertyValue);
+                            break;
                     }
                 }
             }

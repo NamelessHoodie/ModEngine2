@@ -1,13 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
     <TrimMode>copyused</TrimMode>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <RootNamespace>ModEngine2_GUI</RootNamespace>
     <AssemblyName>ModEngine2_GUI</AssemblyName>
+	<UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\**" />

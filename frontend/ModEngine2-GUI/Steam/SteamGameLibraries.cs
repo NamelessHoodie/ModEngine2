@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ModEngine2_GUI.Utilities;
 
 namespace ModEngine2_GUI.Steam
 {
@@ -65,7 +66,8 @@ namespace ModEngine2_GUI.Steam
                             UpdateCleanBytesTally = dynamic;
                             break;
                         default:
-                            throw new Exception("NOT IMPLEMENTED");
+                            new ExceptionUtils.SteamFieldUnimplementedException(nameof(SteamLibrary), key, dynamic);
+                            break;
                     }
                 }
             }
