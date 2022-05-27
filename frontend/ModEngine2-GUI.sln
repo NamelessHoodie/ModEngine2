@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32519.111
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModEngine2-GUI", "ModEngine2-GUI\ModEngine2-GUI.csproj", "{8BFE5898-70FD-4C47-97F3-93B5271BD068}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BFE5898-70FD-4C47-97F3-93B5271BD068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BFE5898-70FD-4C47-97F3-93B5271BD068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BFE5898-70FD-4C47-97F3-93B5271BD068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BFE5898-70FD-4C47-97F3-93B5271BD068}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2A98A32-C877-4378-9824-14E8A9007BB6}
+	EndGlobalSection
+EndGlobal
