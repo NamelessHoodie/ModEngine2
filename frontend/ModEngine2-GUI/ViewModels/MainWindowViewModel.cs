@@ -2,6 +2,7 @@ using Avalonia.Controls;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using ModEngine2_GUI.Steam;
+using ModEngine2_GUI.Utilities;
 using System.IO;
 
 namespace ModEngine2_GUI.ViewModels
@@ -20,11 +21,29 @@ namespace ModEngine2_GUI.ViewModels
         public MainWindowViewModel()
         {
             GameTabs = new ObservableCollection<TabItem>();
+            //SteamworksSharp.Native.SteamNative.Initialize();
+            //var result = SteamworksSharp.SteamApi.Initialize(480);
+
+            try
+            {
+                Steamworks.SteamClient.Init(0, true);
+            }
+            catch (System.Exception e)
+            {
+                // Something went wrong! Steam is closed?
+            }
 
             //help();
-            help2();
-            
+            //help2();
+            help3();
             //new System.Threading.Tasks.Task(() => { Thread.Sleep(5000); help(); });
+            Steamworks.SteamClient.Shutdown();
+        }
+
+        private void help3()
+        {
+            var er = GameTypeAppId.EldenRing.TryGetGameLocation(out var gameLocation);
+            var ds2 = GameTypeAppId.DarkSoulsII.TryGetGameLocation(out var gameLocationds2);
         }
 
         private void help2()

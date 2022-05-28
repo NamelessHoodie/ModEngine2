@@ -1,5 +1,4 @@
-﻿using SteamWebAPI2.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,21 +11,21 @@ namespace ModEngine2_GUI.ViewModels
     public class GameViewModel : ViewModelBase
     {
         public string Name { get; set; }
-        public GameTypeUtils.GameType Type { get; set; }
+        public GameTypeAppId Type { get; set; }
         public string executableDirectoryPath { get; set; }
         public string ExecutableName
         {
             get
             {
-                return GameTypeUtils.gameTypeUtils.GetExecutableNameByGameType(Type);
+                return Type.GetExecutableName();
             }
         }
 
         public string ExecutablePath { get; }
 
-        public GameViewModel(GameTypeUtils.GameType type, string executableDirectoryPath)
+        public GameViewModel(GameTypeAppId type, string executableDirectoryPath)
         {
-            Name = GameTypeUtils.gameTypeUtils.GetStringGameName(type);
+            Name = type.GetFancyNameUI();
             ExecutablePath = System.IO.Path.Combine(this.executableDirectoryPath, ExecutableName);
             Type = type;
             this.executableDirectoryPath = executableDirectoryPath;

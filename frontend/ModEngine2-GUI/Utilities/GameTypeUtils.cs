@@ -3,85 +3,105 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SteamWebAPI2.Interfaces;
+using Steamworks;
 
 namespace ModEngine2_GUI.Utilities
 {
-    public class GameTypeUtils
+    public enum GameTypeAppId : uint
     {
+        DarkSoulsPTDE = 211420,
+        DarkSoulsRemastered = 570940,
+        DarkSoulsII = 236430,
+        DarkSoulsIISOTFS = 335300,
+        DarkSoulsIII = 374320,
+        Sekiro = 814380,
+        EldenRing = 1245620
+    }
 
-        public static GameTypeUtils gameTypeUtils = new GameTypeUtils();
-
-        public enum GameType
+    public static class GameTypeUtils
+    {
+        public class GameTypeDataContainer
         {
-            DarkSoulsPTDE,
-            DarkSoulsRemastered,
-            DarkSoulsII,
-            DarkSoulsIISOTFS,
-            DarkSoulsIII,
-            Sekiro,
-            EldenRing
+
+            public static GameTypeDataContainer gameTypeUtils = new GameTypeDataContainer();
+
+            private GameTypeDataContainer()
+            {
+            }
+
+            public string GetStringGameName(GameTypeAppId type)
+            {
+                if (gameTypeToGameStringName.TryGetValue(type, out var name))
+                    return name;
+                throw new Exception("Unimplemented GameType");
+            }
+
+            public string GetExecutableNameByGameType(GameTypeAppId type)
+            {
+                if (gameTypeToGameStringName.TryGetValue(type, out var exeName))
+                    return exeName;
+                throw new Exception("Unimplemented GameType");
+            }
+
+
+            private Dictionary<GameTypeAppId, string> gameTypeToGameStringName =
+            new Dictionary<GameTypeAppId, string>
+            {
+            { GameTypeAppId.DarkSoulsPTDE, "Dark Souls - PTDE"},
+            { GameTypeAppId.DarkSoulsRemastered,"Dark Souls - Remastered"},
+            { GameTypeAppId.DarkSoulsII ,"Dark Souls II"},
+            { GameTypeAppId.DarkSoulsIISOTFS ,"Dark Souls II - SOTFS"},
+            { GameTypeAppId.DarkSoulsIII ,"Dark Souls III"},
+            { GameTypeAppId.Sekiro, "Sekiro - Shadows Die Twice"},
+            { GameTypeAppId.EldenRing, "Elden Ring"}
+            };
+
+            private Dictionary<GameTypeAppId, string> gameTypeToExecutableName =
+            new Dictionary<GameTypeAppId, string>
+            {
+            { GameTypeAppId.DarkSoulsPTDE, "DARKSOULS.exe"},
+            { GameTypeAppId.DarkSoulsRemastered,"DarkSoulsRemastered.exe"},
+            { GameTypeAppId.DarkSoulsII ,"DarkSoulsII.exe"},
+            { GameTypeAppId.DarkSoulsIISOTFS ,"DarkSoulsII.exe"},
+            { GameTypeAppId.DarkSoulsIII ,"DarkSoulsIII.exe"},
+            { GameTypeAppId.Sekiro, "Sekiro.exe"},
+            { GameTypeAppId.EldenRing, "eldenring.exe"}
+            };
         }
 
-        private GameTypeUtils()
-        { 
+        public static string GetFancyNameUI(this GameTypeAppId type)
+        {
+            return GameTypeDataContainer.gameTypeUtils.GetStringGameName(type);
         }
 
-        public string GetStringGameName(GameType type)
+        public static uint GetAppId(this GameTypeAppId type)
         {
-            if (gameTypeToGameStringName.TryGetValue(type, out var name))
-                return name;
-            throw new Exception("Unimplemented GameType");
+            return (uint)type;
         }
 
-        public AppId GetAppIdByGameType(GameType type)
+        public static string GetExecutableName(this GameTypeAppId type)
         {
-            if (gameTypeToAppId.TryGetValue(type, out var appId))
-                return appId;
-            throw new Exception("Unimplemented GameType");
+            return GameTypeDataContainer.gameTypeUtils.GetExecutableNameByGameType(type);
         }
 
-        public string GetExecutableNameByGameType(GameType type)
+        public static bool TryGetGameLocation(this GameTypeAppId type, out string gameDirectoryPath)
         {
-            if (gameTypeToGameStringName.TryGetValue(type, out var exeName))
-                return exeName;
-            throw new Exception("Unimplemented GameType");
+            if (type.IsSteamGameInstalled())
+            {
+                gameDirectoryPath = System.IO.Path.Combine(SteamApps.AppInstallDir(type.GetAppId()), "Game");
+                return true;
+            }
+            gameDirectoryPath = null;
+            return false;
         }
 
-        private static Dictionary<GameType, AppId> gameTypeToAppId =
-        new Dictionary<GameType, AppId>
+        public static bool IsSteamGameInstalled(this GameTypeAppId type)
         {
-            { GameType.DarkSoulsPTDE ,(AppId)211420},
-            { GameType.DarkSoulsRemastered ,(AppId)570940},
-            { GameType.DarkSoulsII ,(AppId)236430},
-            { GameType.DarkSoulsIISOTFS ,(AppId)335300},
-            { GameType.DarkSoulsIII ,(AppId)374320},
-            { GameType.Sekiro ,(AppId)814380},
-            { GameType.EldenRing ,(AppId)1245620}
-        };
+            if(SteamClient.IsValid)
+             return SteamApps.IsAppInstalled(type.GetAppId());
+            throw new Exception("Steam Client is not valid");
+        }
 
-        private static Dictionary<GameType, string> gameTypeToGameStringName =
-        new Dictionary<GameType, string>
-        {
-            { GameType.DarkSoulsPTDE, "Dark Souls - PTDE"},
-            { GameType.DarkSoulsRemastered,"Dark Souls - Remastered"},
-            { GameType.DarkSoulsII ,"Dark Souls II"},
-            { GameType.DarkSoulsIISOTFS ,"Dark Souls II - SOTFS"},
-            { GameType.DarkSoulsIII ,"Dark Souls III"},
-            { GameType.Sekiro, "Sekiro - Shadows Die Twice"},
-            { GameType.EldenRing, "Elden Ring"}
-        };
 
-        private static Dictionary<GameType, string> gameTypeToExecutableName =
-        new Dictionary<GameType, string>
-        {
-            { GameType.DarkSoulsPTDE, "DARKSOULS.exe"},
-            { GameType.DarkSoulsRemastered,"DarkSoulsRemastered.exe"},
-            { GameType.DarkSoulsII ,"DarkSoulsII.exe"},
-            { GameType.DarkSoulsIISOTFS ,"DarkSoulsII.exe"},
-            { GameType.DarkSoulsIII ,"DarkSoulsIII.exe"},
-            { GameType.Sekiro, "Sekiro.exe"},
-            { GameType.EldenRing, "eldenring.exe"}
-        };
     }
 }
