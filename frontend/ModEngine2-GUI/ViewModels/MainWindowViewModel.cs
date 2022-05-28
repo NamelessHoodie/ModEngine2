@@ -29,7 +29,14 @@ namespace ModEngine2_GUI.ViewModels
 
         private void help2()
         {
-            var steamInstalledLibrary = new SteamGameLibraries();
+            try
+            {
+                var steamInstalledLibrary = new SteamGameLibraries();
+            }
+            catch (System.Exception e)
+            {
+                new ModEngine2_GUI.Utilities.ExceptionUtils.ExceptionWindow("HELP I DONT EVEN KNOW!", e.Message, e.Source);
+            }
 
             //string json = Newtonsoft.Json.JsonConvert.SerializeObject(steamInstalledLibrary, Newtonsoft.Json.Formatting.Indented);
             //Debug.WriteLine(json);
