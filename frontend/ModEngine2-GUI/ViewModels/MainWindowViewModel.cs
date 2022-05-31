@@ -34,19 +34,19 @@ namespace ModEngine2_GUI.ViewModels
             }
 
             //help();
-            //help2();
-            help3();
+            //TestCustomSteamLibraryParser();
+            TestSteamworksApiGameDetector();
             //new System.Threading.Tasks.Task(() => { Thread.Sleep(5000); help(); });
             Steamworks.SteamClient.Shutdown();
         }
 
-        private void help3()
+        private void TestSteamworksApiGameDetector()
         {
-            var er = GameTypeAppId.EldenRing.TryGetGameLocation(out var gameLocation);
-            var ds2 = GameTypeAppId.DarkSoulsII.TryGetGameLocation(out var gameLocationds2);
+            var er = GameTypeAppId.EldenRing.TryGetGameExecutableDirectoryPath(out var gameLocation);
+            var ds2 = GameTypeAppId.DarkSoulsII.TryGetGameExecutableDirectoryPath(out var gameLocationds2);
         }
 
-        private void help2()
+        private void TestCustomSteamLibraryParser()
         {
             try
             {
@@ -64,9 +64,8 @@ namespace ModEngine2_GUI.ViewModels
         {
             for (int i = 0; i < 5; i++)
             {
-                GameTabs.Add(new TabItem() { Header = $"meme{i}", Content = $"ContentMeme{i}" });
+                GameTabs.Add(new TabItem() { Header = $"TestHeader{i}", Content = $"ContentMeme{i}" });
             }
-            Debug.WriteLine("daThing");
         }
     }
 }

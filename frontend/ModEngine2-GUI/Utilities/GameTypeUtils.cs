@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -84,15 +85,39 @@ namespace ModEngine2_GUI.Utilities
             return GameTypeDataContainer.gameTypeUtils.GetExecutableNameByGameType(type);
         }
 
-        public static bool TryGetGameLocation(this GameTypeAppId type, out string gameDirectoryPath)
+        public static bool TryGetGameExecutableDirectoryPath(this GameTypeAppId type, out string? gameDirectoryPath)
         {
+            gameDirectoryPath = null;
             if (type.IsSteamGameInstalled())
             {
-                gameDirectoryPath = System.IO.Path.Combine(SteamApps.AppInstallDir(type.GetAppId()), "Game");
+                gameDirectoryPath = type.GetGameExecutableDirectoryPath();
                 return true;
             }
-            gameDirectoryPath = null;
             return false;
+        }
+
+        public static string GetGameExecutableDirectoryPath(this GameTypeAppId type)
+        {
+            //"Game" is appended at the end of the path, which I believe is used in all souls games.
+            //However this may change at any point and perhaps should be addressed at some point.
+            return Path.Combine(SteamApps.AppInstallDir(type.GetAppId()), "Game");
+        }
+
+        public static bool TryGetGameExecutablePath(this GameTypeAppId type, out string? gameExecutablePath)
+        {
+            gameExecutablePath = null;
+            if (type.IsSteamGameInstalled())
+            {
+                gameExecutablePath = type.GetGameExecutablePath();
+                return true;
+            }
+            return false;
+        }
+
+        public static string GetGameExecutablePath(this GameTypeAppId type)
+        {
+            return Path.Combine(type.GetGameExecutableDirectoryPath(), 
+                                type.GetExecutableName());
         }
 
         public static bool IsSteamGameInstalled(this GameTypeAppId type)
